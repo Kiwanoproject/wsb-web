@@ -156,7 +156,7 @@ function App() {
     setConnecting(true);
     const getNetWork = async () => {
       chainId = (await ethersProvider.getNetwork()).chainId;
-      // DEV: BSC_TESTNET_ID
+      // dev: BSC_TESTNET_ID
 	  if (chainId !== BSC_TESTNET_ID) {
         setErrorNetWork(true);
         setAddress("");
@@ -295,7 +295,7 @@ function App() {
         )}
         <div className="airdrop">
           <div className="title">
-            <span style={{ fontWeight: 900 }}>aWSB</span>
+            <span style={{ fontWeight: 900 }}>LOWB</span>
             <span style={{ fontWeight: 300, marginLeft: "10px" }}>
               AirDrop Event
             </span>
@@ -346,7 +346,7 @@ function App() {
                 <div className="key token-balance">
                   Balance:{" "}
                   <span style={{ fontWeight: 600, marginLeft: 10 }}>
-                    {aWSBTokenBalance} aWSB
+                    {aWSBTokenBalance} LOWB
                   </span>
                 </div>
                 <div className="token-info">
@@ -369,7 +369,7 @@ function App() {
                 <div className="key claimed-balance">
                   To be claimed:{" "}
                   <span style={{ fontWeight: 600, marginLeft: 10 }}>
-                    {isFairyEvent ? fairyClaimBalance : claimBalance} aWSB
+                    {isFairyEvent ? fairyClaimBalance : claimBalance} LOWB
                   </span>
                 </div>
                 <div className="key">
