@@ -36,14 +36,14 @@ let aWSBTokenContract: ethers.Contract;
 
 let FairyAirDropContract: ethers.Contract;
 
-const aWSBTokenAddress = AWSB_TOKEN_ADDRESS;
-const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS;
-const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS;
+//const aWSBTokenAddress = AWSB_TOKEN_ADDRESS;
+//const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS;
+//const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS;
 
 //DEV:
-// const aWSBTokenAddress = AWSB_TOKEN_ADDRESS_TEST;
-// const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS_TEST;
-// const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS_TEST;
+ const aWSBTokenAddress = AWSB_TOKEN_ADDRESS_TEST;
+ const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS_TEST;
+ const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS_TEST;
 
 let ethersProvider: any;
 let signer: any;
@@ -156,7 +156,8 @@ function App() {
     setConnecting(true);
     const getNetWork = async () => {
       chainId = (await ethersProvider.getNetwork()).chainId;
-      if (chainId !== BSC_MAINNET_ID) {
+      // DEV: BSC_TESTNET_ID
+	  if (chainId !== BSC_TESTNET_ID) {
         setErrorNetWork(true);
         setAddress("");
       }
