@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { useLottie } from "lottie-react";
 import BigNumber from "bignumber.js";
 import ClaimingAnimation from "./assets/ClaimingAnimation.json";
+import Whitelist from "./assets/whitelist-signed.json";
 import { aWSBAirDropABI } from "./ABI/airdrop.json";
 import { EIP20 } from "./ABI/eip-20.json";
 import { Fairy } from "./ABI/fairy-airdrop.json";
@@ -36,14 +37,14 @@ let aWSBTokenContract: ethers.Contract;
 
 let FairyAirDropContract: ethers.Contract;
 
-const aWSBTokenAddress = AWSB_TOKEN_ADDRESS;
-const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS;
-const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS;
+//const aWSBTokenAddress = AWSB_TOKEN_ADDRESS;
+//const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS;
+//const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS;
 
 //DEV:
-// const aWSBTokenAddress = AWSB_TOKEN_ADDRESS_TEST;
-// const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS_TEST;
-// const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS_TEST;
+const aWSBTokenAddress = AWSB_TOKEN_ADDRESS_TEST;
+const aWSBAirDropContractAddress = AWSB_AIRDROP_CONTRACT_ADDRESS_TEST;
+const FairyAirDropContractAddress = FAIRY_CONTRACT_ADDRESS_TEST;
 
 let ethersProvider: any;
 let signer: any;
@@ -157,7 +158,7 @@ function App() {
     const getNetWork = async () => {
       chainId = (await ethersProvider.getNetwork()).chainId;
       // dev: BSC_TESTNET_ID
-	  if (chainId !== BSC_MAINNET_ID) {
+	  if (chainId !== BSC_TESTNET_ID) {
         setErrorNetWork(true);
         setAddress("");
       }
@@ -193,13 +194,32 @@ function App() {
       let aWSBTokenBalance: ethers.BigNumber = await aWSBTokenContract.balanceOf(
         walletAccounts[0]
       );
+
+      let expiredTime = ethers.BigNumber.from("1621310400");
+      let claimBalance = ethers.BigNumber.from("0");
+
+      let account = walletAccounts[0];
+      let claimInfo = Whitelist[account.toLowerCase()];
+      //console.log(Whitelist);
+      console.log(account.toLowerCase());
+      if (claimInfo) {
+        let claimed = await aWSBAirDropContract.hashBlacklist(claimInfo["hash"]);
+        expiredTime = ethers.BigNumber.from(claimInfo["expiredAt"]);
+        if (claimed == false) {
+          claimBalance = ethers.BigNumber.from(claimInfo["amount"]);
+        }
+      }
+      
+      let fairyStatus = false;
+      
+      /*
       let expiredTime: ethers.BigNumber = await aWSBAirDropContract.claimExpiredAt();
       let claimBalance: ethers.BigNumber = await aWSBAirDropContract.claimWhitelist(
         walletAccounts[0]
       );
       let fairyStatus: boolean = await FairyAirDropContract.containsFairy(
         walletAccounts[0]
-      );
+      );*/
       if (fairyStatus) {
         let nextReleasedTime: ethers.BigNumber = await FairyAirDropContract.nextReleasedTime();
         console.log(
@@ -264,7 +284,8 @@ function App() {
       if (isFairyEvent) {
         process = await FairyAirDropContract.claim();
       } else {
-        process = await aWSBAirDropContract.claim();
+        let claimInfo = Whitelist[address.toLowerCase()];
+        process = await aWSBAirDropContract.claim(claimInfo["amount"], claimInfo["expiredAt"], claimInfo["v"], claimInfo["r"], claimInfo["s"]);
       }
       try {
         await process.wait();
