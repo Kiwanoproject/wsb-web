@@ -159,7 +159,7 @@ function App() {
   const [isMetaMaskConnected, setIsMetaMaskConnected] = useState<boolean>();
   const [claiming, setClaiming] = useState<boolean>(false);
   const [claimSuccess, setClaimSuccess] = useState<boolean>(false);
-  const [connecting, setConnecting] = useState<boolean>(true);
+  const [connecting, setConnecting] = useState<boolean>(false);
   const [noWallet, setNotWallet] = useState<boolean>(false);
   const [isFairy, setIsFairy] = useState<boolean>(false);
   const [isFairyEvent, setIsFairyEvent] = useState<boolean>(false);
@@ -211,7 +211,7 @@ function App() {
         setAddress("");
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsMetaMaskConnected(Boolean(address));
+      setIsMetaMaskConnected(Boolean(ethereum.selectedAddress));
       setConnecting(false);
 
       // Subscribe to accounts change
@@ -246,11 +246,11 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!isMetaMaskConnected) {
       connectToWallet();
     }
-  }, []); 
+  }, []); */
 
   // const change = (accounts: any[]) => {
   //   setIsMetaMaskConnected(
