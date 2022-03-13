@@ -211,7 +211,7 @@ function App() {
         setAddress("");
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsMetaMaskConnected(Boolean(ethereum.selectedAddress));
+      setIsMetaMaskConnected(Boolean(address));
       setConnecting(false);
 
       // Subscribe to accounts change
