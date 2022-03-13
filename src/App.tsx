@@ -211,7 +211,7 @@ function App() {
         setAddress("");
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsMetaMaskConnected(Boolean(address));
+      setIsMetaMaskConnected(Boolean(ethereum.selectedAddress));
       setConnecting(false);
 
       // Subscribe to accounts change
@@ -247,6 +247,7 @@ function App() {
   };
 
    useEffect(() => {
+    getAirdropInfos(); 
     if (!isMetaMaskConnected) {
       connectToWallet();
     }
