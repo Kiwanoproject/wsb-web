@@ -247,7 +247,6 @@ function App() {
   };
 
    useEffect(() => {
-    getAirdropInfos(); 
     if (!isMetaMaskConnected) {
       connectToWallet();
     }
