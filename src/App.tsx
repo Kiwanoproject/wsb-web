@@ -212,7 +212,7 @@ function App() {
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsMetaMaskConnected(Boolean(ethereum.request({ method: 'eth_accounts' })));
-      setConnecting(true);
+      setConnecting(false);
 
       // Subscribe to accounts change
       instance.on("accountsChanged", (accounts: string[]) => {
@@ -236,9 +236,9 @@ function App() {
 
       // Subscribe to provider disconnection
       instance.on("disconnect", (error: { code: number; message: string }) => {
-        setIsMetaMaskConnected(true);
+        setIsMetaMaskConnected(false);
         setAddress("");
-        setConnecting(true);
+        setConnecting(false);
         console.log(error);
       });
     } catch (error) {
