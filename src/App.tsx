@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { ethers } from "ethers";
+import { ethers, providers } from "ethers";
 import dayjs from "dayjs";
 import { useLottie } from "lottie-react";
 import BigNumber from "bignumber.js";
@@ -211,7 +211,7 @@ function App() {
         setAddress("");
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsMetaMaskConnected(Boolean(ethereum.selectedAddress));
+      setIsMetaMaskConnected(Boolean(ethereum.request({ method: 'eth_accounts' })));
       setConnecting(false);
 
       // Subscribe to accounts change
@@ -288,7 +288,7 @@ function App() {
     await init();
     if (isMetaMaskConnected && !errorNetWork) {
       let walletAccounts = await ethereum.request({
-        method: "eth_requestAccounts",
+        method: "eth_accounts",
       });
       setAddress(walletAccounts[0]);
       let aWSBTokenBalance: ethers.BigNumber =
@@ -361,7 +361,7 @@ function App() {
 
   const connectWallet = async () => {
     return await ethereum.request({
-      method: "eth_requestAccounts",
+      method: "eth_accounts",
     });
   };
 
