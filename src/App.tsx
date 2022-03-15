@@ -262,7 +262,7 @@ function App() {
     // 获取合约相关信息
     getAirdropInfos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMetaMaskConnected]);
+  }, []);
 
   const connectWallet = async () => {
     return await ethereum.request({
